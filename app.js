@@ -17,7 +17,7 @@ app.use((req, res, next) => {
     res.header('Pragma', 'no-cache');
     next();
 });
-
+//MONGO_URL=mongodb+srv://khush:khush@cluster0-0pbld.mongodb.net/test?retryWrites=true&w=majority
 app.get("/getemployee", (req, res) => {
     empModel.find(function (err, result) {
         res.send(result);
