@@ -1,5 +1,6 @@
 const express = require('express');
 const mongodb = require('./mongoconnect');
+const bodyParser = require('body-parser');
 const app = express();
 
 const empModel = require('./model/employee');
@@ -17,12 +18,25 @@ app.use((req, res, next) => {
     res.header('Pragma', 'no-cache');
     next();
 });
+app.use(
+    bodyParser.urlencoded({
+        extended: true,
+    }),
+);
+app.use(bodyParser.json());
+
 //MONGO_URL=mongodb+srv://khush:khush@cluster0-0pbld.mongodb.net/test?retryWrites=true&w=majority
 app.get("/getemployee", (req, res) => {
     empModel.find(function (err, result) {
         res.send(result);
     });
-    
+
+});
+app.post('/saveemployee', (req, res) => {
+    const inputModel = req.body;
+    empModel.create(inputModel).then((result, err) => {
+        res.send(result);
+    })
 });
 
 
